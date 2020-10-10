@@ -1,0 +1,44 @@
+const [...files] = e.target.files;
+      let [...galleryImage] = files.map(file => {
+         return file.name;
+      });
+      console.log('GALLERY-IMAGE=>', galleryImage);
+      const bodyFormData = new FormData();
+      console.log(bodyFormData.append('gallery', galleryImage));
+      for (let i = 0; i < galleryImage.length; i += 1) {
+         bodyFormData.append(galleryImage[i], galleryImage[i]);
+      }
+      Axios.post('/api/hotels/uploads', bodyFormData, {
+         headers: {
+            'Content-Type': 'multipart/form-data',
+         },
+      })
+         .then(res => {
+            console.log('res=> ', res.data);
+            setGallery(res.data);
+            console.log('Gallery =>', gallery);
+         })
+         .catch(err => console.log(err));
+
+
+
+         // console.log("=>=>=>",req.files);
+    // res.send(req.files);
+    var imageFile = typeof req.files['image'] !== 'undefined' ? res.write(req.files.image[0].filename) :'';
+    console.log("Multiple file",req.files);
+    console.log("Single files",req.file);
+    // const files = req.files['gallery'];
+    // console.log(files);
+    //     if (typeof files === 'undefined') {
+    //         console.log('ider aa raha hu');
+    //         var gallery = [];
+    //     } else {
+    //         gallery = files.map(file => res.write(file));
+    //     }
+    if (req.fileValidationError) {
+         return res.send(req.fileValidationError);
+      } else if (err instanceof multer.MulterError) {
+         return res.send(err);
+      } else if (err) {
+         return res.send(err);
+      }
