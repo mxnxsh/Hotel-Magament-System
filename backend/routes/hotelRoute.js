@@ -6,20 +6,20 @@ import Hotel from "../models/hotelModel";
 const router = express.Router();
 
 const avatarStorage = multer.diskStorage({
-   destination: function (req, file, cb) {
+   destination:  (req, file, cb)=> {
       cb(null, 'uploads/avatar')
    },
-   filename: function (req, file, cb) {
+   filename:  (req, file, cb)=> {
       cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname))
    }
 });
 
 
 const galleryStorage = multer.diskStorage({
-   destination: function (req, file, cb) {
+   destination:  (req, file, cb)=> {
       cb(null, 'uploads/gallery')
    },
-   filename: function (req, file, cb) {
+   filename:  (req, file, cb)=> {
       cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname))
    }
 });
@@ -44,7 +44,7 @@ router.post('/gallery-uploads', galleryUpload, (req, res) => {
 
 
 router.post("/", async (req, res) => {
-      const { title, description, capacity, size, price, avatar,gallery  } = req.body
+      const { title, description, capacity, size, price, avatar,gallery } = req.body
       let images = gallery.split(',');
       const newHotel = new Hotel({
          title, 
